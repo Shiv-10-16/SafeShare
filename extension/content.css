@@ -1,0 +1,195 @@
+/* SafeShare AI Shield - Content Styles */
+
+.safeshare-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99999999;
+  background: #090d16;
+  border: 1px solid #10b981;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(16, 185, 129, 0.3);
+  color: #f1f5f9;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 420px;
+  animation: safeshare-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s ease;
+}
+
+@keyframes safeshare-slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.safeshare-toast-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.safeshare-toast-title {
+  font-weight: 700;
+  color: #10b981;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.safeshare-toast-desc {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.safeshare-toast-badge {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Floating SafeShare status badge */
+.safeshare-floating-badge {
+  position: fixed;
+  bottom: 18px;
+  left: 18px;
+  z-index: 9999999;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(16, 185, 129, 0.5);
+  border-radius: 20px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  color: #e2e8f0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.safeshare-floating-badge:hover {
+  border-color: #10b981;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
+}
+
+.safeshare-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+  animation: safeshare-pulse 2s infinite;
+}
+
+@keyframes safeshare-pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Floating Decoder Drawer */
+.safeshare-decoder-modal {
+  position: fixed;
+  bottom: 60px;
+  left: 18px;
+  z-index: 99999999;
+  background: #0b1120;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  width: 340px;
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #f8fafc;
+  display: none;
+}
+
+.safeshare-decoder-modal.visible {
+  display: block;
+}
+
+.safeshare-decoder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.safeshare-decoder-header h4 {
+  margin: 0;
+  font-size: 13px;
+  color: #10b981;
+}
+
+.safeshare-decoder-header button {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.safeshare-token-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.04);
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  font-size: 11px;
+}
+
+.safeshare-token-key {
+  color: #38bdf8;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.safeshare-token-val {
+  color: #cbd5e1;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.safeshare-btn-restore {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  background: #10b981;
+  border: none;
+  border-radius: 6px;
+  color: #042f2e;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.safeshare-btn-restore:hover {
+  background: #34d399;
+}

@@ -1,0 +1,4 @@
+# SafeShare Requirements
+starlette>=0.30.0
+uvicorn>=0.23.0
+requests>=2.28.0

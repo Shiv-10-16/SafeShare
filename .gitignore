@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Local secrets & caches
+.env
+.env.local
+*.pem
+*.key
+
+# Local vault cache & temp runtime files
+guardian_vault.json
+guardian_config.json
+
+# Logs
+*.log
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

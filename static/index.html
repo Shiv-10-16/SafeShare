@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeShare Guardian - Desktop Zero-Trust AI Privacy</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <!-- Master App Window Container -->
+  <div class="app-window">
+
+    <!-- Left Obsidian Sidebar -->
+    <aside class="sidebar">
+      <div class="logo-badge" title="SafeShare Enterprise AI Firewall">
+        <i data-lucide="shield" style="width: 26px; height: 26px; color: #16171b; stroke-width: 2.2;"></i>
+      </div>
+
+      <nav class="nav-group">
+        <button class="nav-item active" title="Overview & Live Guardian" data-nav="overview">
+          <i data-lucide="layout-grid" style="width: 20px; height: 20px;"></i>
+        </button>
+        <button class="nav-item" title="Audit Logs on Disk" data-nav="logs">
+          <i data-lucide="layers" style="width: 20px; height: 20px;"></i>
+        </button>
+        <button class="nav-item" title="Interactive Simulator" data-nav="simulator">
+          <i data-lucide="cpu" style="width: 20px; height: 20px;"></i>
+        </button>
+        <button class="nav-item" title="Local Secret Vault" data-nav="vault">
+          <i data-lucide="key" style="width: 20px; height: 20px;"></i>
+        </button>
+        <button class="nav-item" title="Machine & User Profile" data-nav="profile">
+          <i data-lucide="user" style="width: 20px; height: 20px;"></i>
+        </button>
+      </nav>
+
+      <div class="nav-footer">
+        <button class="nav-item" id="sidebarPowerBtn" title="Guardian Power & Settings">
+          <i data-lucide="power" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Area -->
+    <main class="main-view">
+
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <h1>
+            Overview
+            <span id="headerStatusBadge" style="font-size: 11px; background: #e2f8ec; color: #16a34a; padding: 4px 10px; border-radius: 20px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #16a34a;"></span>
+              Shield Active
+            </span>
+          </h1>
+          <div class="subtitle">Windows Clipboard Zero-Trust Firewall · Google Gemma 4 Intelligence</div>
+        </div>
+
+        <div class="top-bar-right">
+          <!-- Quick Search -->
+          <div style="position: relative; display: flex; align-items: center;">
+            <input type="text" id="logSearchInput" placeholder="Search original or safe data..." 
+                   style="background: #f8fafc; border: 1px solid #eef0f4; border-radius: 20px; padding: 8px 14px 8px 34px; font-size: 12px; outline: none; width: 200px; color: #334155;">
+            <i data-lucide="search" style="position: absolute; left: 12px; width: 14px; height: 14px; color: #94a3b8;"></i>
+          </div>
+
+          <!-- Real Local Host / User Badge (No dummy accounts) -->
+          <div class="system-status-pill" id="systemStatusPill" title="Local Windows Machine & Session">
+            <span class="system-dot"></span>
+            <span class="system-host" id="machineHostTag">HOST: APARAJEET</span>
+            <span class="system-divider">|</span>
+            <span class="system-user" id="machineUserTag">USER: devhe</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Metrics Row (Hero + 3 Pastel Cards) -->
+      <section class="metrics-row">
+
+        <!-- 1. Hero Activity Graph Card -->
+        <div class="metric-card-hero">
+          <div class="hero-header">
+            <div>
+              <div class="hero-title">Continuous Protection</div>
+              <div class="hero-value" id="heroThreatsTotal">0</div>
+              <div class="hero-sub">Threats Blocked From Leaving Windows</div>
+            </div>
+            <div class="hero-badge-pill" id="heroPill">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span>
+              24/7 Active
+            </div>
+          </div>
+
+          <!-- Dynamic SVG Sparkline Graph -->
+          <div class="sparkline-container">
+            <svg viewBox="0 0 300 60" style="width: 100%; height: 100%; overflow: visible;">
+              <defs>
+                <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.0"/>
+                </linearGradient>
+              </defs>
+              <path id="sparklineArea" d="M 0 50 Q 50 35, 100 40 T 200 25 T 300 15 L 300 60 L 0 60 Z" fill="url(#chartGradient)"></path>
+              <path id="sparklineLine" d="M 0 50 Q 50 35, 100 40 T 200 25 T 300 15" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"></path>
+              <circle id="sparklineDot" cx="300" cy="15" r="4" fill="#3b82f6" stroke="#ffffff" stroke-width="2"></circle>
+            </svg>
+          </div>
+
+          <div class="time-pills">
+            <span class="time-pill">1H</span>
+            <span class="time-pill active">24H</span>
+            <span class="time-pill">1W</span>
+            <span class="time-pill">1M</span>
+            <span class="time-pill">ALL</span>
+          </div>
+        </div>
+
+        <!-- 2. Lavender Pastel Card: Secrets & Passwords -->
+        <div class="metric-card lavender">
+          <div class="card-top">
+            <div>
+              <div class="card-title">Passwords & Secrets</div>
+              <div class="card-num" id="statSecrets">0</div>
+              <div class="card-desc">Keys & Database Logins</div>
+            </div>
+            <i data-lucide="more-vertical" style="width: 16px; height: 16px; color: #a78bfa;"></i>
+          </div>
+          <div class="card-bottom">
+            <div class="round-icon">
+              <i data-lucide="key-round" style="width: 15px; height: 15px;"></i>
+            </div>
+            <div class="growth-pill purple">
+              <span>+ 100%</span> Neutralized
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Mint Pastel Card: Aadhaar & PII -->
+        <div class="metric-card mint">
+          <div class="card-top">
+            <div>
+              <div class="card-title">Aadhaar & PII</div>
+              <div class="card-num" id="statPii">0</div>
+              <div class="card-desc">Govt IDs & Customer Names</div>
+            </div>
+            <i data-lucide="more-vertical" style="width: 16px; height: 16px; color: #6ee7b7;"></i>
+          </div>
+          <div class="card-bottom">
+            <div class="round-icon">
+              <i data-lucide="id-card" style="width: 15px; height: 15px;"></i>
+            </div>
+            <div class="growth-pill green">
+              <span>+ 100%</span> Masked
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Butter Pastel Card: Financial & UPI -->
+        <div class="metric-card butter">
+          <div class="card-top">
+            <div>
+              <div class="card-title">Financial & Banking</div>
+              <div class="card-num" id="statFinancial">0</div>
+              <div class="card-desc">Amounts, Accounts & Cards</div>
+            </div>
+            <i data-lucide="more-vertical" style="width: 16px; height: 16px; color: #fcd34d;"></i>
+          </div>
+          <div class="card-bottom">
+            <div class="round-icon">
+              <i data-lucide="credit-card" style="width: 15px; height: 15px;"></i>
+            </div>
+            <div class="growth-pill yellow">
+              <span>+ 100%</span> Secure
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Bottom Split View: Log Table (Left) + Dark Control Banner (Right) -->
+      <section class="bottom-split">
+
+        <!-- Left Table: Local Interception Log -->
+        <div class="table-card">
+          <div class="table-header-row">
+            <div class="table-title-group">
+              <h3>System Interception Audit Log</h3>
+              <p>Stored locally on disk (<span id="machineNameBadge" style="font-weight: 600; color: #0f172a;">APARAJEET</span>) · Real-time Windows copy protection</p>
+            </div>
+
+            <div class="table-filters">
+              <select class="pill-select" id="threatFilterSelect">
+                <option value="all">All Threats</option>
+                <option value="SECRET">Passwords & Secrets</option>
+                <option value="GOVERNMENT_ID">PAN, Aadhaar & Legal Docs</option>
+                <option value="FINANCIAL_PII">Bank A/C, UPI & Cards</option>
+                <option value="AMOUNT">Amounts & Currency (50k, 10cr)</option>
+                <option value="PERSONAL_CONTACT">Names & Transactors (e.g. rqavi)</option>
+              </select>
+              <button class="pill-select" id="exportLogsBtn" title="Export audit_log.json to disk" style="display: flex; align-items: center; gap: 4px;">
+                <i data-lucide="download" style="width: 13px; height: 13px;"></i>
+                Export
+              </button>
+            </div>
+          </div>
+
+          <!-- Simulator Panel with Quick Presets -->
+          <div id="simulatorPanel" style="display: none; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 14px; padding: 12px 14px; margin-bottom: 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 12px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="sparkles" style="width: 14px; height: 14px; color: #3b82f6;"></i>
+                Guardian Simulator (Simulate Copy into Windows Clipboard)
+              </span>
+              <button id="closeSimBtn" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size: 14px;">✕</button>
+            </div>
+
+            <!-- Preset Buttons -->
+            <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
+              <span style="font-size: 11px; color: #64748b; font-weight: 600; align-self: center;">Test Presets:</span>
+              <button class="sim-preset-btn" data-preset="rqavi transferred 50k from his hdfc account">rqavi transferred 50k</button>
+              <button class="sim-preset-btn" data-preset="Pan: ABCDE1234F, Passport: Z1234567, DL: DL-0420110012345, Voter: ABC1234567">Indian Legal Docs</button>
+              <button class="sim-preset-btn" data-preset="aadhar 452009 25009 42009">Aadhaar Grouping</button>
+              <button class="sim-preset-btn" data-preset="RC MP09AB1234, GSTIN: 27AAAAA0000A1Z5, ABHA: 12-3456-7890-1234">RC, GSTIN & ABHA</button>
+            </div>
+
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="simTextInput" value="rqavi transferred 50k from his hdfc account" 
+                     style="flex: 1; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-family: monospace; outline: none;">
+              <button id="simCopyBtn" style="background: #11141a; color: #ffffff; border: none; border-radius: 8px; padding: 6px 14px; font-size: 12px; font-weight: 700; cursor: pointer;">
+                Copy & Intercept
+              </button>
+            </div>
+            <div id="simFeedback" style="font-size: 11px; color: #16a34a; font-family: monospace; margin-top: 6px; display: none;"></div>
+          </div>
+
+          <!-- Table Container -->
+          <div style="flex: 1; overflow-y: auto; max-height: 290px;">
+            <table class="log-table">
+              <thead>
+                <tr>
+                  <th style="width: 28%;">What Was Copied (Original)</th>
+                  <th style="width: 28%;">What SafeShare Made (Sanitized)</th>
+                  <th style="width: 22%;">Tokens & Threats</th>
+                  <th style="width: 12%;">Time</th>
+                  <th style="width: 10%;">Status</th>
+                </tr>
+              </thead>
+              <tbody id="auditTableBody">
+                <tr>
+                  <td colspan="5" style="text-align: center; color: #94a3b8; padding: 30px;">
+                    Copy any text with passwords, Aadhaar, amounts, or accounts in Windows to see live interceptions!
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right: Obsidian Control Center Banner -->
+        <div class="control-banner">
+          <div>
+            <div class="control-banner-title">
+              Autonomous <br>
+              <span class="pill-word">Live</span> Protection
+            </div>
+
+            <div class="control-banner-desc">
+              Monitoring Windows clipboard at 50ms latency. All sensitive passwords, Aadhaar, and credentials are replaced before pasting into AI.
+            </div>
+
+            <div class="control-status-box">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="status-dot-pulse" id="controlStatusDot"></div>
+                <span id="controlStatusText" style="font-size: 13px; font-weight: 700; color: #10b981;">Guardian Active</span>
+              </div>
+              <span style="font-size: 11px; color: #94a3b8; font-family: monospace;" id="guardLatencyTag">50ms poll</span>
+            </div>
+          </div>
+
+          <div>
+            <!-- Master Pause / Resume Button -->
+            <button class="btn-toggle-pause" id="togglePauseBtn">
+              <i data-lucide="pause" style="width: 16px; height: 16px;"></i>
+              <span id="togglePauseLabel">Pause Protection</span>
+            </button>
+
+            <!-- 1-Click Restore Button -->
+            <button class="btn-restore-last" id="restoreClipboardBtn" title="Restore previous original value into clipboard">
+              <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+              Restore Original in Clipboard
+            </button>
+
+            <div class="system-tag">
+              <i data-lucide="hard-drive" style="width: 12px; height: 12px;"></i>
+              <span>Saved locally in audit_log.json</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

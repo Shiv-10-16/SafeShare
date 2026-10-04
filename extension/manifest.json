@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "SafeShare AI Shield",
+  "version": "1.0.0",
+  "description": "Zero-trust privacy firewall for ChatGPT, Claude, and Gemini powered by Google Gemma 4.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "http://127.0.0.1:8000/*",
+    "*://*.chatgpt.com/*",
+    "*://chatgpt.com/*",
+    "*://*.claude.ai/*",
+    "*://claude.ai/*",
+    "*://*.gemini.google.com/*",
+    "*://gemini.google.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.chatgpt.com/*",
+        "*://chatgpt.com/*",
+        "*://*.claude.ai/*",
+        "*://claude.ai/*",
+        "*://*.gemini.google.com/*",
+        "*://gemini.google.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
