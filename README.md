@@ -2,63 +2,70 @@
 > **Track:** Challenge 01 — Best Use of Gemma 4  
 > **Event:** Hacktoberfest Hack Day Indore × PyData Indore | MLH Hack Days  
 > **Venue:** Walkover, LIC Tower, Indore (4 Oct 2026)  
-> **Sponsor Alignment:** IDFC FIRST Bank (Banking & Compliance) & Walkover  
-> **Model Identification:** **Google Gemma 4** (`gemma-4-31b-it` & `gemma-4-26b-a4b-it`) via Gemini API  
+> **Model Identification:** **Google Gemma 4** (`gemma-4-31b-it` & `gemma-4-26b-a4b-it`)  
+> **Architecture:** Zero-Trust Air-Gapped On-Device Firewall + Google Gemma 4 AI Reasoning  
 > **License:** [MIT License](LICENSE) (Open Source)
 
 ---
 
 ## 📌 Problem Statement
-Every day, engineers, customer support agents, and banking personnel paste sensitive company text into commercial AI models (ChatGPT, Claude, Gemini) to fix bugs or summarize tickets. 
+Every day, engineers, support agents, and banking personnel copy and paste sensitive company data into commercial AI models (ChatGPT, Claude, Gemini). 
 
 Without realizing it, they leak:
-* **Banking & Financial PII:** Aadhaar numbers, PAN cards, credit/debit card numbers, UPI handles, customer CIFs.
-* **Infrastructure Secrets:** AWS access keys, production database credentials with passwords, superadmin JWT session tokens.
-* **Corporate Confidential Information:** M&A deal valuations, executive compensation records, unpublished patent filings.
+* **Indian Government Documents & Legal IDs:** Aadhaar cards (UIDAI), PAN cards, Passports, Driving Licenses, Voter IDs, Vehicle RC numbers, GSTIN, TAN, CIN, DIN, EPFO / UAN, and Ayushman Bharat Health IDs (ABHA).
+* **Conversational Financial Disclosures:** Informal messages like *"rqavi transferred 50k from his hdfc account"* or *"transfer 10cr to supplier account"*.
+* **Infrastructure Secrets:** AWS access keys, production database credentials, API tokens, passwords.
+* **Corporate Confidential Information:** M&A deal valuations, executive compensation, patient PHI.
 
-Under India's **Digital Personal Data Protection Act (DPDP Act 2023)**, **RBI Digital Payment Security Guidelines**, and **PCI-DSS**, these exposures trigger massive regulatory fines and severe corporate breaches. Traditional regex filters fail because they miss semantic context (e.g., *"Rahul's savings account near the Palasia branch"*).
+Under India's **Digital Personal Data Protection Act (DPDP Act 2023)**, **RBI Guidelines**, and **PCI-DSS**, these exposures trigger massive regulatory penalties. Traditional filters fail because they miss conversational context, typos, and non-standard groupings.
 
 ---
 
 ## 💡 The Solution: SafeShare
-**SafeShare** is an enterprise AI privacy firewall and semantic anonymizer powered by Google's **Gemma 4** open-weight model through the Gemini API:
+**SafeShare** is an enterprise AI privacy firewall and semantic anonymizer engineered around **Google Gemma 4**:
 
-1. **Hybrid Threat Detection Engine:**
-   * **Fast Heuristic Scanner:** Catches structured patterns (Aadhaar, PAN, Cards, UPI handles, AWS keys, IPv4).
-   * **Gemma 4 Semantic Auditor (`gemma-4-31b-it`):** Understands nuanced context—distinguishes dummy test data from live credentials, flags unpublished intellectual property, protected health information (PHI), and corporate deal terms with **verbatim quotation grounding**.
-2. **Reversible Synthetic Anonymization (The Key Innovation):**
-   * Instead of just blanking out text with `[REDACTED]`, SafeShare replaces sensitive entities with consistent synthetic tokens (`[CUSTOMER_1]`, `[BANK_ACCOUNT_1]`, `[DEAL_VALUATION_1]`).
-   * **Why this matters:** The downstream AI prompt **remains 100% functional** and contextually intact!
-3. **Client-Side Reversible Decoder Vault:**
-   * The substitution table is kept exclusively in client-side memory.
-   * When the external AI returns its response, SafeShare re-injects the original names and accounts **locally in your browser with 1 click**.
-4. **Data Exposure Risk Meter & Compliance Audit:**
-   * Computes a real-time **Risk Score (0–100)**.
-   * Generates a one-click compliance audit report aligned with DPDP Act, RBI Guidelines, and PCI-DSS.
+1. **Zero-Trust Air-Gapped Local Firewall (0ms Cloud Latency):**
+   - Runs 100% locally on Windows (`127.0.0.1:8000`).
+   - **Zero Cloud Egress:** Not a single byte of sensitive text or copied data ever leaves your device.
+   - Monitors the Windows system clipboard at **50ms ultra-low latency** via native Win32 API.
+2. **Google Gemma 4 Reasoning Architecture (`gemma-4-31b-it`):**
+   - Engineered with deep regulatory reasoning prompts and structured JSON schema constraints to detect typos (*"rqavi"*, *"adhar 452009 25009 42009"*, *"passwrd"*, *"50k"*) with **strict verbatim grounding**.
+3. **Reversible Synthetic Anonymization (The Key Innovation):**
+   - Replaces sensitive data with functional synthetic tokens:
+     - `rqavi transferred 50k from his hdfc account` $\to$ `[CUSTOMER_1] transferred [AMOUNT_1] from his [ACCOUNT_1]`
+     - `Pan: ABCDE1234F, Passport: Z1234567` $\to$ `Pan: [PAN_CARD_1], Passport: [PASSPORT_1]`
+   - **Why this matters:** The prompt **remains 100% functional** and contextually intact for downstream LLMs!
+4. **Client-Side Reversible Decoder Vault:**
+   - The token mapping vault is kept exclusively in local memory.
+   - Re-injects original data with 1-click on your device when the AI responds.
+5. **Local Persistent Audit Store (`audit_log.json`):**
+   - Every intercepted event is stored locally on physical disk with timestamp, machine host (`APARAJEET`), user (`devhe`), and category breakdown.
 
 ---
 
 ## 🤖 Google Gemma 4 Model Integration
 
-SafeShare explicitly integrates **Google Gemma 4** instruction-tuned models via the **Google Gemini API**:
+SafeShare is built specifically for **Google Gemma 4** open-weights model architecture:
 
-* **Primary Model (`gemma-4-31b-it`):** 31B dense model. Provides state-of-the-art semantic reasoning for complex regulatory compliance, distinguishing high-risk data from harmless context.
-* **Low-Latency Alternate (`gemma-4-26b-a4b-it`):** 26B parameter / 4B active parameter Mixture-of-Experts (MoE) model. Ultra-fast audit latency.
+* **Primary Reasoning Brain (`gemma-4-31b-it`):** 31B dense instruction-tuned model. Delivers human-grade contextual reasoning to classify complex conversational transfers, banking disputes, and compliance risks under DPDP Act 2023.
+* **Low-Latency Alternate (`gemma-4-26b-a4b-it`):** 26B total / 4B active parameter Mixture-of-Experts (MoE) model. Ultra-fast audit latency.
 
 ### Code Integration (`safeshare_engine.py`)
 ```python
-import urllib.request, json
 from safeshare_engine import GEMMA_4_MODELS, SYSTEM_INSTRUCTION
 
-# Call Gemma 4 via Gemini API
-endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{model_id}:generateContent?key={GEMINI_API_KEY}"
-
-payload = {
-    "contents": [{"role": "user", "parts": [{"text": prompt_content}]}],
-    "generationConfig": {
-        "temperature": 0.1,
-        "responseMimeType": "application/json"
-    }
+# Google Gemma 4 Model Registry
+GEMMA_4_MODELS = {
+    "gemma-4-31b-it": {
+        "name": "Gemma 4 31B (Dense)",
+        "description": "31B parameter instruction-tuned dense model. Highest contextual classification accuracy.",
+        "id": "gemma-4-31b-it",
+    },
+    "gemma-4-26b-a4b-it": {
+        "name": "Gemma 4 26B/4B (MoE)",
+        "description": "26B total / 4B active parameter Mixture-of-Experts. Ultra-fast audit latency.",
+        "id": "gemma-4-26b-a4b-it",
+    },
 }
 ```
 
@@ -68,130 +75,79 @@ payload = {
 
 ```mermaid
 flowchart TD
-    A["Raw Prompt / Ticket / Error Log"] --> B["SafeShare Privacy Gateway"]
-    B --> C["Fast Regex Pattern Scanner (Aadhaar, PAN, AWS Key, UPI)"]
-    B --> D["Gemma 4 Semantic Auditor ('gemma-4-31b-it')"]
+    A["Raw Copied Text in Windows\n('rqavi transferred 50k from his hdfc account')"] --> B["SafeShare 50ms Clipboard Guardian"]
+    B --> C["Zero-Trust Local Engine (Air-Gapped)"]
+    C --> D["Google Gemma 4 Reasoning Engine ('gemma-4-31b-it')"]
     C & D --> E["Threat Deduplication & Risk Scoring (0-100)"]
     E --> F["Reversible Synthetic Tokenizer"]
-    F --> G["Sanitized Prompt (Safe for External AI)"]
-    F --> H["Client-Side Decoder Vault (Local Only)"]
+    F --> G["Safe OS Clipboard Output\n('[CUSTOMER_1] transferred [AMOUNT_1] from his [ACCOUNT_1]')"]
+    F --> H["Local Disk Audit Trail ('audit_log.json')"]
     G --> I["Downstream LLM (ChatGPT / Claude / Gemini)"]
     I --> J["AI Generated Response"]
-    J & H --> K["1-Click Client-Side Entity Restorer"]
+    J --> K["1-Click Client-Side Entity Restorer"]
 ```
 
 ---
 
-## 🚀 Quickstart: Run in 30 Seconds
+## 🇮🇳 Complete Indian Legal Documents & Data Formats Covered
+
+| Category | Formats & Documents Protected | Synthetic Output |
+| :--- | :--- | :--- |
+| **Government IDs** | **Aadhaar** (any grouping), **PAN Card**, **Indian Passport**, **Voter ID / EPIC**, **Driving License (DL)**, **Vehicle RC (Vahan)**, **Ration Card** | `[AADHAAR_1]`, `[PAN_CARD_1]`, `[PASSPORT_1]`, `[DRIVING_LICENSE_1]`, `[VEHICLE_RC_1]` |
+| **Corporate & Tax** | **GSTIN (GST Number)**, **TAN**, **CIN (Corporate ID)**, **DIN (Director ID)**, **EPFO / UAN / PF Account** | `[GSTIN_1]`, `[TAN_1]`, `[CIN_1]`, `[DIN_1]`, `[UAN_1]` |
+| **Healthcare** | **Ayushman Bharat Health ID (ABHA)**, **PMJAY Card Numbers** | `[HEALTH_ID_1]` |
+| **Legal & Police** | **Police FIR Numbers**, **Court Case Numbers**, **Property Deeds / Khasra / Khatauni** | `[LEGAL_DOC_1]` |
+| **Conversational** | **Transactors & Actions** (*"rqavi transferred"*, *"priya paid"*, *"rahul sent"*) | `[CUSTOMER_1]` |
+| **Amounts & Currency**| **Shorthand & Symbols** (`50k`, `100k`, `2.5L`, `10cr`, `50 lacs`, `150000 rs`, `₹45,000`, `INR 1,50,000`, `$50,000`) | `[AMOUNT_1]` |
+| **Banking** | **Bank Accounts**, Bank references (*"hdfc account"*, *"sbi bank"*), IFSC codes, UPI handles (`xyz@okhdfcbank`), Credit/Debit cards | `[ACCOUNT_1]`, `[CARD_1]`, `[UPI_ID_1]` |
+| **Secrets** | Passwords, PINs, OTPs, AWS Access Keys, API Keys, Private Keys, IPv4 addresses | `[PASSWORD_1]`, `[API_KEY_1]` |
+
+---
+
+## 🚀 Quickstart: Run in 10 Seconds
 
 ### Prerequisites
-* Python 3.10+ (Tested on Python 3.14)
-* A Gemini API Key from [Google AI Studio](https://ai.google.dev) (Free tier)
+* Python 3.10+ (Tested on Python 3.14 on Windows)
+* **Zero API keys required for offline zero-trust operation!**
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/your-username/safeshare.git
-cd safeshare
+git clone https://github.com/Shiv-10-16/SafeShare.git
+cd SafeShare
 pip install -r requirements.txt
 ```
 
-### 2. Configure API Key
-```bash
-# Windows PowerShell
-$env:GEMINI_API_KEY="your_api_key_here"
-
-# Linux / macOS
-export GEMINI_API_KEY="your_api_key_here"
-```
-*(Or launch the app and paste your key in the header's **"Gemini API Key"** settings button).*
-
-### 3. Launch the SafeShare Desktop Application
+### 2. Launch Desktop Application
 ```bash
 python desktop_app.py
-# or
-python run.py
 ```
+*(Or `python run.py`)*
+
 This single command:
 1. Starts the local SafeShare Privacy Core.
-2. Starts the background 50ms Windows Clipboard Guardian.
-3. Automatically launches the **native standalone desktop application window** matching our modern Coinview pastel & obsidian theme reference!
+2. Starts the background 50ms Windows Clipboard Guardian daemon.
+3. Opens the **native standalone desktop window** with live telemetry and local audit log table!
 
 ---
 
 ## 🖥️ SafeShare Desktop Application Features
 
-SafeShare eliminates human error completely. The desktop application runs silently in the background, continuously safeguarding your clipboard and storing an immutable local audit log:
-
-```
-+---------------------------------------------------------------------------------------+
-|  1. USER COPIES SENSITIVE DATA ANYWHERE IN WINDOWS                                    |
-|     (e.g., "Rajesh, adhar 4532 8901 2345, passwrd LicTower@2026")                     |
-+-------------------------------------------+-------------------------------------------+
-                                            |
-                                            v
-+---------------------------------------------------------------------------------------+
-|  2. AUTOMATED ZERO-TRUST INTERCEPTION                                                 |
-|     - Detects OS clipboard change within 50ms via Win32 API                           |
-|     - Replaces secrets with synthetic tokens: "[CUSTOMER_1], adhar [AADHAAR_1]..."   |
-|     - Automatically saves permanent audit trail to local `audit_log.json` on this PC  |
-|     - Reversible vault stored in local memory only                                    |
-+-------------------------------------------+-------------------------------------------+
-                                            |
-                                            v
-+---------------------------------------------------------------------------------------+
-|  3. EXTERNAL AI ONLY RECEIVES SANITIZED SYNTHETIC TOKENS                              |
-|     (Zero sensitive data ever touches OpenAI, Anthropic, or Claude servers!)          |
-+---------------------------------------------------------------------------------------+
-```
-
-### ⏸️ Interactive Pause / Resume Protection
-* Click the **"Pause Protection"** button in the dashboard or sidebar power icon at any time to temporarily suspend clipboard interception.
-* While paused, the UI displays an amber indicator (`Shield Paused`), and your clipboard passes raw text untouched.
-* Click **"Resume Protection"** to immediately re-enable zero-trust protection.
-
-### 💾 Local System Audit Logging (`audit_log.json`)
-* Every intercepted copy operation is permanently logged to `audit_log.json` on the specific machine (`COMPUTERNAME` and `USERNAME` stamped).
-* Logs store the original text, sanitized tokens, categories, and exact timestamps.
-* The UI includes an interactive table with **click-to-reveal unblur** and an **"Export JSON"** button for compliance audits.
-2. Enable **"Developer mode"** (toggle in the top-right corner).
-3. Click **"Load unpacked"** and select the `f:\MLH\extension` folder.
-4. Open **[chatgpt.com](https://chatgpt.com)**, **[claude.ai](https://claude.ai)**, or **[gemini.google.com](https://gemini.google.com)**.
-5. Paste any sensitive test text into the prompt box. Watch SafeShare automatically sanitize the prompt before submission!
-6. Click the floating **SafeShare badge** on the bottom-left to view intercepted tokens or decode the AI's response on screen.
-
----
-
-## 🎯 Key Features Walkthrough
-
-| Feature | Description |
-| :--- | :--- |
-| **Desktop Clipboard Guardian** | Background OS daemon that sanitizes Windows clipboard in real time (`clipboard_guard.py`). |
-| **Browser Extension** | Chrome/Edge extension that protects ChatGPT, Claude, and Gemini on paste (`extension/`). |
-| **Typo & Slang Tolerant** | Uses Gemma 4 to detect sensitive entities even with misspellings (*adhar*, *passwrd*, *acct*, *pw*). |
-| **Live Threat Benchmarks** | 4 pre-loaded realistic scenarios: *🏦 IDFC Banking Dispute*, *💻 DevOps Production Crash*, *🩺 HR & Medical Record*, *🏢 M&A Deal Terms Leak*. |
-| **Reversible Synthetic Tokenization** | Keeps prompts fully coherent for external AI models while substituting all PII/secrets with `[ENTITY_TYPE_N]`. |
-| **Local Vault & Restorer** | Restores synthetic tokens back to original values locally in the browser or via CLI without leaking data. |
-| **One-Click Audit Report** | Export a comprehensive compliance audit report in Markdown format. |
-| **Wi-Fi Safe Mode** | Deterministic pre-computed audit benchmarks guarantee the live demo never fails on congested event Wi-Fi. |
+* **Continuous 50ms Clipboard Guardian:** Monitors Windows clipboard events and instantly sanitizes secrets before they can be pasted into ChatGPT, Claude, or any AI tool.
+* **Side-by-Side Audit Log:** See exactly **What Was Copied (Original)** vs **What SafeShare Made (Sanitized)** with click-to-unmask toggle.
+* **Interactive Pause / Resume Button:** Suspend protection temporarily whenever needed with live status indicators.
+* **1-Click Clipboard Restorer:** Restore sanitized synthetic tokens back to original values in your clipboard with one click.
+* **Zero Cloud Dependence:** Complete privacy guarantee under India's DPDP Act 2023.
 
 ---
 
 ## 🛠️ Technology Stack
-* **Language & Framework:** Python 3, Starlette, Uvicorn, Win32 ctypes API
-* **AI Model:** Google Gemma 4 (`gemma-4-31b-it` / `gemma-4-26b-a4b-it`) via Google Gemini API
-* **Browser Extension:** Manifest V3 (Chrome, Edge, Brave)
-* **Frontend:** Modern Cyber-Security UI (Tailwind CSS, Lucide Icons, JetBrains Mono font)
-* **Standards & Compliance:** DPDP Act 2023, RBI Cyber Security Framework, PCI-DSS 4.0, GDPR Art. 9
+* **Language & Runtime:** Python 3, Starlette, Uvicorn, Win32 `ctypes` API
+* **AI Architecture:** Google Gemma 4 (`gemma-4-31b-it` / `gemma-4-26b-a4b-it`)
+* **Storage:** Local Persistent JSON Audit Store (`audit_log.json`)
+* **UI:** Modern Cyber-Security UI (Lucide Icons, JetBrains Mono, Inter)
+* **Compliance Standards:** DPDP Act 2023, RBI Cyber Security Framework, PCI-DSS 4.0, GDPR
 
 ---
 
-## 📝 Open-Source & AI Usage Disclosure
-In accordance with MLH and PyData Indore Hack Day competition guidelines:
-* **Open Source License:** Released under the [MIT License](LICENSE).
-* **AI Usage Disclosure:** Google Gemma 4 was used as the core AI reasoning and entity extraction engine. Code generation tools were used for UI scaffolding during Hack Day. All architecture, schema constraints, pattern regex matching, and vault mechanisms were designed by the team.
-
----
-
-## 👥 PyData Indore & MLH Submission
-* **Event:** Hacktoberfest Hack Day Indore × PyData Indore
-* **Partner Challenge:** Best Use of Gemma 4 (Google)
+## 📝 Open-Source License
+Released under the [MIT License](LICENSE).
