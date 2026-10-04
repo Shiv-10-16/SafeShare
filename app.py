@@ -6,8 +6,26 @@ Integrates with Google Gemma 4 on the Gemini API.
 
 import json
 import os
+import subprocess
 import sys
 from typing import Optional
+
+def ensure_dependencies():
+    required = ["uvicorn", "starlette"]
+    missing = []
+    for pkg in required:
+        try:
+            __import__(pkg)
+        except ImportError:
+            missing.append(pkg)
+    if missing:
+        print(f"[*] Installing required dependencies: {', '.join(missing)}...")
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", *missing, "--quiet"])
+        except Exception:
+            pass
+
+ensure_dependencies()
 
 from starlette.applications import Starlette
 from starlette.middleware import Middleware

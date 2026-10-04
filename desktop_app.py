@@ -12,6 +12,25 @@ import threading
 import time
 import webbrowser
 
+# Auto-install missing dependencies on fresh PCs
+def ensure_dependencies():
+    required = ["uvicorn", "starlette"]
+    missing = []
+    for pkg in required:
+        try:
+            __import__(pkg)
+        except ImportError:
+            missing.append(pkg)
+    if missing:
+        print(f"[*] First-time launch detected: Installing required packages ({', '.join(missing)})...")
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", *missing, "--quiet"])
+            print("[+] Packages installed successfully!\n")
+        except Exception as e:
+            print(f"[!] Warning during package install: {e}")
+
+ensure_dependencies()
+
 import uvicorn
 from app import app
 from audit_store import get_audit_summary, load_logs

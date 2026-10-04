@@ -6,10 +6,30 @@ Auto-detects open ports (8000 -> 8001 -> 8080) so it never fails on port conflic
 
 import os
 import socket
+import subprocess
 import sys
 import threading
 import time
 import webbrowser
+
+def ensure_dependencies():
+    required = ["uvicorn", "starlette"]
+    missing = []
+    for pkg in required:
+        try:
+            __import__(pkg)
+        except ImportError:
+            missing.append(pkg)
+    if missing:
+        print(f"[*] First-time launch: Installing {', '.join(missing)}...")
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", *missing, "--quiet"])
+            print("[+] Installed successfully!\n")
+        except Exception:
+            pass
+
+ensure_dependencies()
+
 import uvicorn
 
 HOST = "127.0.0.1"
