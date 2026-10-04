@@ -118,21 +118,30 @@ def get_audit_summary() -> Dict[str, Any]:
                 secrets_count += 1
             elif "GOVERNMENT" in c or "AADHAAR" in c or "PAN" in c or "CONTACT" in c or "NAME" in c or "PII" in c:
                 pii_count += 1
-            elif "FINANCIAL" in c or "CARD" in c or "UPI" in c or "BANK" in c:
+            elif "FINANCIAL" in c or "CARD" in c or "UPI" in c or "BANK" in c or "AMOUNT" in c:
                 financial_count += 1
 
-    # Hourly distribution for activity chart
-    hourly_activity = [0] * 7
-    for e in logs[-20:]:
-        hourly_activity[min(len(hourly_activity) - 1, e["id"] % 7)] += e.get("threats_count", 1)
+    # Real dynamic activity chart points
+    if total_threats == 0:
+        chart_points = [0, 0, 0, 0, 0, 0, 0]
+    else:
+        chart_points = [0] * 7
+        for e in logs[-20:]:
+            idx = min(6, (e.get("id", 1) - 1) % 7)
+            chart_points[idx] += e.get("threats_count", 1)
+
+    curr_machine = os.environ.get("COMPUTERNAME", "LOCALHOST")
+    curr_user = os.environ.get("USERNAME", "local_user")
 
     return {
         "is_paused": cfg.get("is_paused", False),
+        "machine": curr_machine,
+        "user": curr_user,
         "total_events": total_scanned,
         "total_threats_blocked": total_threats,
         "secrets_count": secrets_count,
         "pii_count": pii_count,
         "financial_count": financial_count,
         "recent_logs": logs[-30:][::-1],  # newest first
-        "chart_points": [12, 19, 14, 25, 22, 30, max(28, total_threats)],
+        "chart_points": chart_points,
     }

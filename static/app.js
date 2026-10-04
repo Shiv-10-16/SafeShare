@@ -140,18 +140,15 @@ async function refreshStats() {
     state.allLogs = data.recent_logs || [];
     renderTable();
 
-    // Update machine info if available
-    if (state.allLogs.length > 0) {
-      const first = state.allLogs[0];
-      if (first.machine) {
-        state.machineName = first.machine;
-        if (el.machineNameBadge) el.machineNameBadge.textContent = first.machine;
-        if (el.machineHostTag) el.machineHostTag.textContent = `HOST: ${first.machine}`;
-      }
-      if (first.user) {
-        state.userName = first.user;
-        if (el.machineUserTag) el.machineUserTag.textContent = `USER: ${first.user}`;
-      }
+    // Update current device machine and user info
+    if (data.machine) {
+      state.machineName = data.machine;
+      if (el.machineNameBadge) el.machineNameBadge.textContent = data.machine;
+      if (el.machineHostTag) el.machineHostTag.textContent = `HOST: ${data.machine}`;
+    }
+    if (data.user) {
+      state.userName = data.user;
+      if (el.machineUserTag) el.machineUserTag.textContent = `USER: ${data.user}`;
     }
 
     // Dynamic Chart Update
